@@ -6,10 +6,19 @@ const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
 
 const app = express();
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
-});
+
+// Strip `sslmode` from the URL so pg-connection-string doesn't treat
+// "require" as "verify-full" (new behaviour in pg-connection-string ≥2.7).
+// We set ssl: { rejectUnauthorized: false } ourselves instead.
+function buildPoolConfig() {
+  const raw = process.env.DATABASE_URL;
+  if (!raw) return {};
+  const u = new URL(raw);
+  u.searchParams.delete('sslmode');
+  return { connectionString: u.toString(), ssl: { rejectUnauthorized: false } };
+}
+
+const pool = new Pool(buildPoolConfig());
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const SALT_ROUNDS = 12;
@@ -138,6 +147,16 @@ app.get('/leaderboard', async (req, res) => {
   } catch (err) {
     console.error('leaderboard error:', err);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET /health  (DB connectivity check)
+app.get('/health', async (req, res) => {
+  try {
+    const { rows } = await pool.query('SELECT NOW() AS now');
+    res.json({ ok: true, db: rows[0].now, DATABASE_URL_set: !!process.env.DATABASE_URL });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message, DATABASE_URL_set: !!process.env.DATABASE_URL });
   }
 });
 
