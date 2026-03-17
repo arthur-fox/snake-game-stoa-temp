@@ -11,7 +11,6 @@
       background: #111;
       animation: hueShift 8s linear infinite;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
@@ -27,26 +26,156 @@
       100% { background: radial-gradient(ellipse at center, #1a0a2e 0%, #0d1b3e 50%, #0a2a1f 100%); }
     }
 
+    /* ── Auth Modal ──────────────────────────────────────────────────── */
+
+    #auth-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      backdrop-filter: blur(4px);
+    }
+
+    #auth-modal.hidden { display: none; }
+
+    #auth-box {
+      background: #181828;
+      border: 1px solid #2a2a4a;
+      border-radius: 14px;
+      padding: 36px 40px;
+      width: 340px;
+      box-shadow: 0 0 60px rgba(57,255,20,0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    #auth-box h2 {
+      text-align: center;
+      font-size: 1.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #39ff14;
+      text-shadow: 0 0 10px #39ff1466;
+    }
+
+    #auth-tabs {
+      display: flex;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #2a2a4a;
+    }
+
+    #auth-tabs button {
+      flex: 1;
+      padding: 9px;
+      background: transparent;
+      border: none;
+      color: #666;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    #auth-tabs button.active {
+      background: #39ff1422;
+      color: #39ff14;
+    }
+
+    #auth-box input {
+      padding: 11px 14px;
+      background: #0e0e1e;
+      border: 1px solid #2a2a4a;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #auth-box input:focus { border-color: #39ff1466; }
+
+    #auth-submit {
+      padding: 12px;
+      background: #39ff14;
+      border: none;
+      border-radius: 8px;
+      color: #111;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: opacity 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 16px #39ff1440;
+    }
+
+    #auth-submit:hover { opacity: 0.88; }
+    #auth-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #auth-error {
+      color: #ff4444;
+      font-size: 0.82rem;
+      text-align: center;
+      min-height: 18px;
+    }
+
+    /* ── Game layout ─────────────────────────────────────────────────── */
+
+    #game-wrap {
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+    }
+
+    #game-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     h1 {
       font-size: 2rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: #39ff14;
       text-shadow: 0 0 12px #39ff1488;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
 
     #score-display {
       font-size: 1.1rem;
       color: #aaa;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
       letter-spacing: 0.08em;
     }
 
-    #score-display span {
-      color: #fff;
-      font-weight: bold;
+    #score-display span { color: #fff; font-weight: bold; }
+
+    #user-bar {
+      font-size: 0.8rem;
+      color: #555;
+      margin-bottom: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
+
+    #user-bar span { color: #39ff14; }
+
+    #logout-btn {
+      background: none;
+      border: 1px solid #333;
+      color: #555;
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    #logout-btn:hover { border-color: #666; color: #999; }
 
     canvas {
       display: block;
@@ -61,31 +190,302 @@
       color: #444;
       letter-spacing: 0.06em;
     }
+
+    /* ── Leaderboard panel ───────────────────────────────────────────── */
+
+    #leaderboard-col {
+      width: 210px;
+      background: #181828;
+      border: 1px solid #2a2a4a;
+      border-radius: 12px;
+      padding: 20px 16px;
+      margin-top: 60px;
+      box-shadow: 0 0 30px rgba(57,255,20,0.06);
+    }
+
+    #leaderboard-col h2 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #39ff14;
+      text-shadow: 0 0 8px #39ff1455;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    #leaderboard-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    #leaderboard-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      padding: 6px 8px;
+      border-radius: 6px;
+      background: #0e0e1e;
+    }
+
+    #leaderboard-list li.me {
+      background: #1a2a1a;
+      border: 1px solid #39ff1433;
+    }
+
+    #leaderboard-list li .rank {
+      color: #444;
+      width: 18px;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+    }
+
+    #leaderboard-list li .lb-name {
+      flex: 1;
+      margin: 0 6px;
+      color: #ccc;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #leaderboard-list li.me .lb-name { color: #39ff14; }
+
+    #leaderboard-list li .lb-score {
+      color: #fff;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+
+    #leaderboard-empty {
+      color: #444;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 12px 0;
+    }
   </style>
 </head>
 <body>
-  <h1>Snake</h1>
-  <div id="score-display">Score: <span id="score-val">0</span></div>
-  <canvas id="c" width="600" height="600"></canvas>
-  <div id="hint">Arrow keys to move</div>
+
+  <!-- ── Auth Modal ─────────────────────────────────────────────────── -->
+  <div id="auth-modal">
+    <div id="auth-box">
+      <h2>🐍 Snake</h2>
+      <div id="auth-tabs">
+        <button class="tab active" data-tab="login">Login</button>
+        <button class="tab" data-tab="signup">Sign Up</button>
+      </div>
+      <div id="auth-error"></div>
+      <input id="auth-username" type="text" placeholder="Username" autocomplete="username" maxlength="50">
+      <input id="auth-password" type="password" placeholder="Password" autocomplete="current-password">
+      <button id="auth-submit">Login</button>
+    </div>
+  </div>
+
+  <!-- ── Game ──────────────────────────────────────────────────────── -->
+  <div id="game-wrap">
+    <div id="game-col">
+      <h1>Snake</h1>
+      <div id="score-display">Score: <span id="score-val">0</span></div>
+      <div id="user-bar">
+        Playing as <span id="username-display"></span>
+        <button id="logout-btn">Logout</button>
+      </div>
+      <canvas id="c" width="600" height="600"></canvas>
+      <div id="hint">Arrow keys to move</div>
+    </div>
+
+    <div id="leaderboard-col">
+      <h2>🏆 Top 10</h2>
+      <ul id="leaderboard-list">
+        <li id="leaderboard-empty" style="list-style:none">Loading…</li>
+      </ul>
+    </div>
+  </div>
 
   <script>
-    const canvas = document.getElementById('c');
-    const ctx = canvas.getContext('2d');
+    const SERVER_URL = 'https://stingray-app-yl585.ondigitalocean.app';
+
+    // ── Auth state ────────────────────────────────────────────────────
+
+    let currentUser = null; // { username, token }
+
+    function loadAuth() {
+      const token    = localStorage.getItem('snake_jwt');
+      const username = localStorage.getItem('snake_username');
+      if (token && username) currentUser = { token, username };
+    }
+
+    function saveAuth(token, username) {
+      currentUser = { token, username };
+      localStorage.setItem('snake_jwt', token);
+      localStorage.setItem('snake_username', username);
+    }
+
+    function clearAuth() {
+      currentUser = null;
+      localStorage.removeItem('snake_jwt');
+      localStorage.removeItem('snake_username');
+    }
+
+    // ── Auth modal ────────────────────────────────────────────────────
+
+    const authModal    = document.getElementById('auth-modal');
+    const authError    = document.getElementById('auth-error');
+    const authUsername = document.getElementById('auth-username');
+    const authPassword = document.getElementById('auth-password');
+    const authSubmit   = document.getElementById('auth-submit');
+    const authTabs     = document.querySelectorAll('#auth-tabs .tab');
+
+    let authMode = 'login'; // 'login' | 'signup'
+
+    authTabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        authMode = btn.dataset.tab;
+        authTabs.forEach(b => b.classList.toggle('active', b === btn));
+        authSubmit.textContent = authMode === 'login' ? 'Login' : 'Sign Up';
+        authError.textContent  = '';
+      });
+    });
+
+    authSubmit.addEventListener('click', submitAuth);
+    [authUsername, authPassword].forEach(el =>
+      el.addEventListener('keydown', e => { if (e.key === 'Enter') submitAuth(); })
+    );
+
+    async function submitAuth() {
+      const username = authUsername.value.trim();
+      const password = authPassword.value;
+      authError.textContent = '';
+
+      if (!username || !password) {
+        authError.textContent = 'Please enter a username and password.';
+        return;
+      }
+
+      authSubmit.disabled = true;
+      authSubmit.textContent = '…';
+
+      try {
+        const res  = await fetch(`${SERVER_URL}/auth/${authMode}`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ username, password }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          authError.textContent = data.error || 'Something went wrong.';
+          return;
+        }
+
+        saveAuth(data.token, data.username);
+        showGame();
+
+      } catch {
+        authError.textContent = 'Cannot reach server. Try again.';
+      } finally {
+        authSubmit.disabled = false;
+        authSubmit.textContent = authMode === 'login' ? 'Login' : 'Sign Up';
+      }
+    }
+
+    function showGame() {
+      authModal.classList.add('hidden');
+      document.getElementById('username-display').textContent = currentUser.username;
+      fetchLeaderboard();
+      init();
+    }
+
+    // ── Logout ────────────────────────────────────────────────────────
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      clearInterval(loop);
+      cancelAnimationFrame(bgRaf);
+      clearAuth();
+      authMode = 'login';
+      authTabs.forEach(b => b.classList.toggle('active', b.dataset.tab === 'login'));
+      authSubmit.textContent = 'Login';
+      authUsername.value = '';
+      authPassword.value = '';
+      authError.textContent = '';
+      authModal.classList.remove('hidden');
+    });
+
+    // ── Leaderboard ───────────────────────────────────────────────────
+
+    async function fetchLeaderboard() {
+      const list = document.getElementById('leaderboard-list');
+      try {
+        const res  = await fetch(`${SERVER_URL}/leaderboard`);
+        const data = await res.json();
+
+        list.innerHTML = '';
+
+        if (!data.length) {
+          list.innerHTML = '<li id="leaderboard-empty" style="list-style:none;color:#444;font-size:0.8rem;text-align:center;padding:12px 0">No scores yet!</li>';
+          return;
+        }
+
+        data.forEach((entry, i) => {
+          const li   = document.createElement('li');
+          const isMe = currentUser && entry.username === currentUser.username;
+          if (isMe) li.classList.add('me');
+
+          li.innerHTML = `
+            <span class="rank">${i + 1}</span>
+            <span class="lb-name">${escHtml(entry.username)}</span>
+            <span class="lb-score">${entry.best_score}</span>
+          `;
+          list.appendChild(li);
+        });
+      } catch {
+        list.innerHTML = '<li style="list-style:none;color:#444;font-size:0.8rem;text-align:center;padding:12px 0">Unavailable</li>';
+      }
+    }
+
+    function escHtml(str) {
+      return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    // ── Score submission ──────────────────────────────────────────────
+
+    async function submitScore(score) {
+      if (!currentUser) return;
+      try {
+        await fetch(`${SERVER_URL}/score`, {
+          method:  'POST',
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': `Bearer ${currentUser.token}`,
+          },
+          body: JSON.stringify({ score }),
+        });
+        await fetchLeaderboard();
+      } catch {
+        // Silent fail — score submission shouldn't block the game
+      }
+    }
+
+    // ── Game ──────────────────────────────────────────────────────────
+
+    const canvas  = document.getElementById('c');
+    const ctx     = canvas.getContext('2d');
     const scoreEl = document.getElementById('score-val');
 
     const CELL = 20;
-    const COLS = canvas.width / CELL;
+    const COLS = canvas.width  / CELL;
     const ROWS = canvas.height / CELL;
     const TICK = 130;
 
     let snake, dir, nextDir, food, score, loop, gameOver;
 
-    // Animated background RAF loop
     function drawBackground() {
-      const t = Date.now() / 4000; // full cycle every ~25s
-      const hue1 = (t * 60) % 360;        // slowly shifts hue
-      const hue2 = (hue1 + 120) % 360;    // complementary
+      const t    = Date.now() / 4000;
+      const hue1 = (t * 60) % 360;
+      const hue2 = (hue1 + 120) % 360;
       const hue3 = (hue1 + 240) % 360;
 
       const grad = ctx.createRadialGradient(
@@ -103,19 +503,19 @@
     let bgRaf;
     function startBgLoop() {
       cancelAnimationFrame(bgRaf);
-      function loop() {
-        if (gameOver) return; // game draw handles its own overlay
+      function frame() {
+        if (gameOver) return;
         drawBackground();
         drawGrid();
         drawGameObjects();
-        bgRaf = requestAnimationFrame(loop);
+        bgRaf = requestAnimationFrame(frame);
       }
-      bgRaf = requestAnimationFrame(loop);
+      bgRaf = requestAnimationFrame(frame);
     }
 
     function drawGrid() {
       ctx.strokeStyle = 'rgba(255,255,255,0.03)';
-      ctx.lineWidth = 0.5;
+      ctx.lineWidth   = 0.5;
       for (let x = 0; x <= canvas.width; x += CELL) {
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
       }
@@ -129,8 +529,8 @@
 
       // Food
       ctx.shadowColor = '#ff4136';
-      ctx.shadowBlur = 14;
-      ctx.fillStyle = '#ff4136';
+      ctx.shadowBlur  = 14;
+      ctx.fillStyle   = '#ff4136';
       const fx = food.x * CELL + 2, fy = food.y * CELL + 2, fs = CELL - 4;
       ctx.beginPath();
       ctx.arc(fx + fs / 2, fy + fs / 2, fs / 2, 0, Math.PI * 2);
@@ -143,10 +543,10 @@
         const isHead = i === 0;
         if (isHead) {
           ctx.shadowColor = '#39ff14';
-          ctx.shadowBlur = 16;
-          ctx.fillStyle = '#39ff14';
+          ctx.shadowBlur  = 16;
+          ctx.fillStyle   = '#39ff14';
         } else {
-          ctx.shadowBlur = 0;
+          ctx.shadowBlur  = 0;
           const t = i / snake.length;
           const g = Math.round(200 - t * 90);
           ctx.fillStyle = `rgb(30, ${g}, 20)`;
@@ -161,8 +561,7 @@
       const hx = snake[0].x * CELL, hy = snake[0].y * CELL;
       ctx.fillStyle = '#111';
       const eyeOffset = 5, eyeR = 2.5;
-      const eyes = getEyePositions(hx, hy, dir, eyeOffset);
-      eyes.forEach(([ex, ey]) => {
+      getEyePositions(hx, hy, dir, eyeOffset).forEach(([ex, ey]) => {
         ctx.beginPath();
         ctx.arc(ex, ey, eyeR, 0, Math.PI * 2);
         ctx.fill();
@@ -170,14 +569,10 @@
     }
 
     function init() {
-      snake = [
-        { x: 15, y: 15 },
-        { x: 14, y: 15 },
-        { x: 13, y: 15 },
-      ];
-      dir = { x: 1, y: 0 };
-      nextDir = { x: 1, y: 0 };
-      score = 0;
+      snake    = [{ x: 15, y: 15 }, { x: 14, y: 15 }, { x: 13, y: 15 }];
+      dir      = { x: 1, y: 0 };
+      nextDir  = { x: 1, y: 0 };
+      score    = 0;
       gameOver = false;
       scoreEl.textContent = '0';
       spawnFood();
@@ -189,27 +584,17 @@
     function spawnFood() {
       let pos;
       do {
-        pos = {
-          x: Math.floor(Math.random() * COLS),
-          y: Math.floor(Math.random() * ROWS),
-        };
+        pos = { x: Math.floor(Math.random() * COLS), y: Math.floor(Math.random() * ROWS) };
       } while (snake.some(s => s.x === pos.x && s.y === pos.y));
       food = pos;
     }
 
     function tick() {
       dir = nextDir;
-
       const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
 
-      // Wall collision
-      if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) {
-        endGame(); return;
-      }
-      // Self collision
-      if (snake.some(s => s.x === head.x && s.y === head.y)) {
-        endGame(); return;
-      }
+      if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) { endGame(); return; }
+      if (snake.some(s => s.x === head.x && s.y === head.y))             { endGame(); return; }
 
       snake.unshift(head);
 
@@ -232,7 +617,7 @@
 
     function getEyePositions(hx, hy, d, o) {
       const cx = hx + CELL / 2, cy = hy + CELL / 2;
-      if (d.x === 1)  return [[cx + 4, cy - o], [cx + 4, cy + o]];
+      if (d.x ===  1) return [[cx + 4, cy - o], [cx + 4, cy + o]];
       if (d.x === -1) return [[cx - 4, cy - o], [cx - 4, cy + o]];
       if (d.y === -1) return [[cx - o, cy - 4], [cx + o, cy - 4]];
       return                  [[cx - o, cy + 4], [cx + o, cy + 4]];
@@ -244,38 +629,41 @@
       gameOver = true;
       draw();
 
+      // Submit score (fire-and-forget)
+      submitScore(score);
+
       // Overlay
       ctx.fillStyle = 'rgba(0,0,0,0.72)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.textAlign = 'center';
       ctx.fillStyle = '#fff';
-      ctx.font = 'bold 36px system-ui';
+      ctx.font      = 'bold 36px system-ui';
       ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2 - 50);
 
-      ctx.font = '20px system-ui';
+      ctx.font      = '20px system-ui';
       ctx.fillStyle = '#aaa';
       ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 - 10);
 
       // Play Again button
       const bw = 160, bh = 44, bx = canvas.width / 2 - bw / 2, by = canvas.height / 2 + 20;
-      ctx.fillStyle = '#39ff14';
+      ctx.fillStyle   = '#39ff14';
       ctx.shadowColor = '#39ff14';
-      ctx.shadowBlur = 18;
+      ctx.shadowBlur  = 18;
       ctx.beginPath();
       ctx.roundRect(bx, by, bw, bh, 8);
       ctx.fill();
       ctx.shadowBlur = 0;
 
       ctx.fillStyle = '#111';
-      ctx.font = 'bold 17px system-ui';
+      ctx.font      = 'bold 17px system-ui';
       ctx.fillText('Play Again', canvas.width / 2, by + bh / 2 + 6);
 
-      // Store button bounds for click
       canvas._btn = { x: bx, y: by, w: bw, h: bh };
     }
 
-    // Input
+    // ── Input ─────────────────────────────────────────────────────────
+
     document.addEventListener('keydown', e => {
       const map = {
         ArrowUp:    { x: 0,  y: -1 },
@@ -286,7 +674,6 @@
       if (map[e.key]) {
         e.preventDefault();
         const d = map[e.key];
-        // Prevent reversing
         if (d.x !== -dir.x || d.y !== -dir.y) nextDir = d;
       }
     });
@@ -308,7 +695,8 @@
       canvas.style.cursor = (mx >= x && mx <= x + w && my >= y && my <= y + h) ? 'pointer' : 'default';
     });
 
-    // Polyfill roundRect for older browsers
+    // ── roundRect polyfill ────────────────────────────────────────────
+
     if (!CanvasRenderingContext2D.prototype.roundRect) {
       CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
         this.beginPath();
@@ -325,7 +713,13 @@
       };
     }
 
-    init();
+    // ── Boot ──────────────────────────────────────────────────────────
+
+    loadAuth();
+    if (currentUser) {
+      showGame();
+    }
+    // else: modal is visible by default, game starts after login
   </script>
 </body>
 </html>
